@@ -1,0 +1,77 @@
+﻿@page "/urlparse"
+@using System.Web;
+@using System.Collections.Specialized;
+
+<PageContainer Title="url解析">
+    <AntDesign.TextArea Placeholder="输入url，例如 https://www.baidu.com/?a=1&b=2"
+                        @bind-Value="@content" style="height:50px;"></AntDesign.TextArea>
+    <AntDesign.Button @onclick="parseUrl">url解析</AntDesign.Button>
+    <AntDesign.Checkbox @bind-Value="@needOrder">query字段排序</AntDesign.Checkbox>
+    
+    <AntDesign.TextArea Placeholder="解析结果" @bind-Value="@output" style="height:360px;">
+    </AntDesign.TextArea>
+
+</PageContainer>
+
+@code {
+    private string content { get; set; }
+    private string output { get; set; }
+    private bool needOrder { get; set; }
+
+
+    private void parseUrl()
+    {
+        try
+        {
+            List<string> fields = parseUrlFields(content);
+            output = string.Join("\n", fields.ToArray());
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    List<string> parseUrlFields(string url)
+    {
+        List<string> fields = new List<string>();
+        Uri data = new Uri(url);
+
+        if (data.Scheme == "file" || data.Host == "")
+        {
+            return parseIncompleteUrl(url);
+        }
+
+        fields.Add(data.Scheme + "://");
+        fields.Add(data.Host);
+        fields.Add(data.AbsolutePath + "?");
+
+        NameValueCollection kvs = HttpUtility.ParseQueryString(data.Query);
+        List<string> keys = new List<string>();
+        foreach (string key in kvs)
+        {
+            keys.Add(key);
+        }
+
+        if (needOrder)
+        {
+            keys.Sort();
+        }
+
+        foreach (string key in keys)
+        {
+            fields.Add(key + "=" + kvs.Get(key));
+        }
+        return fields;
+    }
+
+    List<string> parseIncompleteUrl(string url)
+    {
+        List<string> fields = new List<string>(url.Split('&'));
+        if (needOrder)
+        {
+            fields.Sort();
+        }
+        return fields;
+    }
+}

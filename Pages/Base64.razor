@@ -1,0 +1,47 @@
+﻿@page "/base64"
+@using System.Text;
+@using toolbox.utils;
+
+<PageContainer Title="base64编解码">
+    <AntDesign.Button @onclick="base64Encode">编码</AntDesign.Button>
+    <AntDesign.Button @onclick="base64Decode">解码</AntDesign.Button>
+    <AntDesign.Button @onclick="formatJson">格式化json</AntDesign.Button>
+
+    <AntDesign.TextArea Placeholder="输入明文 或 base64" @bind-Value="@content" style="height:360px;">
+    </AntDesign.TextArea>
+</PageContainer>
+
+@code {
+    private string content { get; set; }
+
+    private void base64Encode()
+    {
+        try
+        {
+            byte[] bytes = Encoding.Default.GetBytes(content);
+            content = Convert.ToBase64String(bytes);
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    private void base64Decode()
+    {
+        try
+        {
+            byte[] bytes = Convert.FromBase64String(content);
+            content = Encoding.Default.GetString(bytes);
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    private void formatJson()
+    {
+        content = CommonFunc.FormatJson(content);
+    }
+}

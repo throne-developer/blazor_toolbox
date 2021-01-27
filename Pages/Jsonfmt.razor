@@ -1,0 +1,18 @@
+﻿@page "/jsonfmt"
+@using toolbox.utils;
+
+<PageContainer Title="json格式化">
+    <AntDesign.Button @onclick="formatJson">格式化</AntDesign.Button>
+
+    <AntDesign.TextArea Placeholder="输入json" @bind-Value="@content" style="height:360px;">
+    </AntDesign.TextArea>
+</PageContainer>
+
+@code {
+    private string content { get; set; }
+
+    private void formatJson()
+    {    
+        content = CommonFunc.FormatJson(content);
+    }
+}

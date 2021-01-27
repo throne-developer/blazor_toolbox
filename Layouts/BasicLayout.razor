@@ -1,0 +1,56 @@
+﻿@namespace toolbox
+@inherits LayoutComponentBase
+
+<AntDesign.Pro.Layout.BasicLayout 
+    Logo="@("https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg")"
+    MenuData="_menuData">
+    <RightContentRender>
+        <RightContent />
+    </RightContentRender>
+    <ChildContent>
+        @Body
+    </ChildContent>
+</AntDesign.Pro.Layout.BasicLayout>
+<SettingDrawer />
+
+@code
+{
+    private readonly MenuDataItem[] _menuData = 
+    {
+        new MenuDataItem
+        {
+            Path = "/",
+            Name = "welcome",
+            Key = "welcome",
+            Icon = "smile",
+        },
+        new MenuDataItem
+        {
+            Path = "/jsonfmt",
+            Name = "json格式化",
+            Key = "jsonfmt",
+            Icon = "smile",
+        },
+        new MenuDataItem
+        {
+            Path = "/xmlfmt",
+            Name = "xml格式化",
+            Key = "xmlfmt",
+            Icon = "smile",
+        },
+        new MenuDataItem
+        {
+            Path = "/base64",
+            Name = "base64解码",
+            Key = "base64",
+            Icon = "smile",
+        },
+        new MenuDataItem
+        {
+            Path = "/urlparse",
+            Name = "url解析",
+            Key = "urlparse",
+            Icon = "smile",
+        }
+    };
+}

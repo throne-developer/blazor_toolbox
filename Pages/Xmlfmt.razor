@@ -1,0 +1,43 @@
+﻿@page "/xmlfmt"
+@using System.IO;
+@using System.Xml;
+
+<PageContainer Title="xml格式化">
+    <AntDesign.Button @onclick="formatXml">格式化</AntDesign.Button>
+
+    <AntDesign.TextArea Placeholder="输入xml" @bind-Value="@content" style="height:360px;">
+    </AntDesign.TextArea>
+</PageContainer>
+
+@code {
+    private string content { get; set; }
+
+    private void formatXml()
+    {
+        content = ConvertXmlString(content);
+    }
+
+    private string ConvertXmlString(string str)
+    {
+        try
+        {
+            XmlDocument document = new XmlDocument();
+            document.LoadXml(str);
+
+            // Format the XML text.
+            StringWriter string_writer = new StringWriter();
+            XmlTextWriter xml_text_writer = new XmlTextWriter(string_writer);
+            xml_text_writer.Formatting = Formatting.Indented;
+            document.WriteTo(xml_text_writer);
+
+            // Display the result.
+            str = string_writer.ToString();
+            return str;
+        }
+        catch (Exception ex)
+        {
+
+        }
+        return str;
+    }
+}
