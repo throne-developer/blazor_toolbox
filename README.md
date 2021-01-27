@@ -14,6 +14,7 @@
 - dotnet publish -c release -o dist 导出到dist目录
 - cd dist
 - dotnet toolbox.dll
+- 体验站点： http://8.129.62.209/
 
 ## docker发布
 - cd docker
